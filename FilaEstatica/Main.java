@@ -1,4 +1,4 @@
-package FIlaEstatica;
+package FilaEstatica;
 
 public class Main {
 }
