@@ -202,6 +202,30 @@ public class Grafo {
         timeF[v] = time[0];
     }
 
+    private void visit(int s, int t, int[] colors, Stack<Integer> path, boolean[] flag){
+        colors[s] = 1;
+        if(flag[0]){
+            for(int i = 0; i < matrix[s].length; i++){
+                if(flag[0]){
+                    if(matrix[s][i] == 1){
+                        if(i == t){
+                            path.push(i);
+                            flag[0] = false;
+                        }
+                        if(colors[i] == 0 && flag[0]){
+                            path.push(i);
+                            visit(i, t, colors,path, flag);
+                        }
+                    }
+                }
+            }
+        }
+        if(flag[0]){
+            path.pop();
+            colors[s] = 2;
+        }
+    }
+
     public int[] dfs(){
         int n = matrix.length;
         int[] colors = new int[n];
@@ -215,6 +239,20 @@ public class Grafo {
             }
         }
         return timeF;
+    }
+
+    public int[] findPath(int s, int t){
+        int n = matrix.length;
+        int[] colors = new int[n];
+        Stack<Integer> path = new Stack<>();
+        boolean[] flag = new boolean[]{true};
+        path.push(s);
+        visit(s, t, colors, path, flag);
+        int[] ans = new int[path.size()];
+        for(int i = 0; i < path.size(); i++){
+            ans[i] = path.get(i);
+        }
+        return ans;
     }
 
 }
