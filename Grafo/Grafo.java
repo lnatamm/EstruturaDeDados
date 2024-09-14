@@ -185,4 +185,36 @@ public class Grafo {
         return max;
     }
 
+    private void visit(int v, int[] time, int[] timeD, int[] timeF, int[] colors, int[] predecessor){
+        colors[v] = 1;
+        time[0]++;
+        timeD[v] = time[0];
+        for(int i = 0; i < matrix[v].length; i++){
+            if(matrix[v][i] == 1){
+                if(colors[i] == 0){
+                    predecessor[i] = v;
+                    visit(i, time, timeD, timeF, colors, predecessor);
+                }
+            }
+        }
+        colors[v] = 2;
+        time[0]++;
+        timeF[v] = time[0];
+    }
+
+    public int[] dfs(){
+        int n = matrix.length;
+        int[] colors = new int[n];
+        int[] predecessor = new int[n];
+        int[] timeD = new int[n];
+        int[] timeF = new int[n];
+        int[] time = new int[]{0};
+        for(int i = 0; i < n; i++){
+            if(colors[i] == 0){
+                visit(i, time, timeD, timeF, colors, predecessor);
+            }
+        }
+        return timeF;
+    }
+
 }
