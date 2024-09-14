@@ -1,7 +1,6 @@
 package Grafo;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Grafo {
 
@@ -123,6 +122,67 @@ public class Grafo {
             colors[u] = 2;
         }
         return distance[vertex];
+    }
+
+    public int[][] distance(int r){
+        int n = matrix.length;
+        int[] colors = new int[n];
+        int[] distance = new int[n];
+        for(int i = 0; i < n; i++){
+            colors[i] = 0;
+            distance[i] = Integer.MAX_VALUE;
+        }
+        colors[r] = 1;
+        distance[r] = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(r);
+
+        while(!queue.isEmpty()){
+            int u = queue.poll();
+            for(int v = 0; v < n; v++){
+                if(matrix[u][v] == 1){
+                    if(colors[v] == 0){
+                        colors[v] = 1;
+                        distance[v] = distance[u] + 1;
+                        queue.add(v);
+                    }
+                    else if(distance[v] > (distance[u] + 1)){
+                        distance[v] = distance[u] + 1;
+                    }
+                }
+            }
+            colors[u] = 2;
+        }
+        return new int[][]{
+                distance,
+                colors
+        };
+    }
+
+    public int diameter(){
+        int n = matrix.length;
+        int[] vmax = new int[n];
+        int[] dmax = new int[n];
+        for(int i = 0; i < n; i++){
+            int[][] ans = distance(i);
+            int[] distance = ans[0];
+            int[] colors = ans[1];
+            vmax[i] = i;
+            dmax[i] = 0;
+            for(int j = 0; j < n; j++){
+                if(distance[j] > dmax[i] && colors[j] != 0){
+                    vmax[i] = j;
+                    dmax[j] = distance[j];
+                }
+            }
+        }
+        int max = 0;
+        for(int i : dmax){
+            if(i > max){
+                max = i;
+            }
+        }
+        return max;
     }
 
 }
