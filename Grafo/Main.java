@@ -10,7 +10,7 @@ public class Main {
                 {0, 0, 1, 0, 0}
         };
         Grafo g = new Grafo(matrix);
-        int[] ans = g.dfs();
+        int[] ans = g.findPath(0, 4);
         for (int i = 0; i < ans.length; i++) {
             System.out.print(ans[i] + " ");
         }
