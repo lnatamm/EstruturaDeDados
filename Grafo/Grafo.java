@@ -93,4 +93,36 @@ public class Grafo {
         return ans;
     }
 
+    public int distance(int r, int vertex){
+        int n = matrix.length;
+        int[] colors = new int[n];
+        int[] distance = new int[n];
+        for(int i = 0; i < n; i++){
+            colors[i] = 0;
+            distance[i] = Integer.MAX_VALUE;
+        }
+        colors[r] = 1;
+        distance[r] = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(r);
+
+        while(!queue.isEmpty()){
+            int u = queue.poll();
+            for(int v = 0; v < n; v++){
+                if(matrix[u][v] == 1){
+                    if(colors[v] == 0){
+                        colors[v] = 1;
+                        distance[v] = distance[u] + 1;
+                        queue.add(v);
+                    }
+                    else if(distance[v] > (distance[u] + 1)){
+                        distance[v] = distance[u] + 1;
+                    }
+                }
+            }
+            colors[u] = 2;
+        }
+        return distance[vertex];
+    }
+
 }
